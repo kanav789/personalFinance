@@ -34,7 +34,7 @@ const items = [
 
 export function AppSidebar() {
     return (
-        <Sidebar>
+        <Sidebar className="h-screen w-64 bg-white border-r border-gray-200">
             <SidebarContent>
                 <SidebarGroup>
                     <SidebarGroupLabel className="flex justify-center text-2xl text-[#6CC500] font-extrabold mt-3"><span><BadgeDollarSign /></span>FinTrack</SidebarGroupLabel>
@@ -53,6 +53,7 @@ export function AppSidebar() {
                             ))}
                         </SidebarMenu>
                     </SidebarGroupContent>
+
                 </SidebarGroup>
             </SidebarContent>
         </Sidebar>

@@ -29,18 +29,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} font-geist-sans antialiased bg-[#F5F7F9]`}
       >
-        <SidebarProvider>
-          <AppSidebar />
-          <main>
-            <SidebarTrigger />
+        <main>
+          <SidebarProvider>
+            <AppSidebar />
+            <SidebarTrigger className="md:hidden" />
             {children}
-          </main>
-        </SidebarProvider>
-
-
-
-
-        {children}
+          </SidebarProvider>
+        </main>
       </body>
     </html>
   );
