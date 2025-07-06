@@ -17,14 +17,10 @@ import { usePathname } from "next/navigation"
 const Menuitems = [
     {
         title: "Dashboard",
-        url: "#",
+        url: "/",
         icon: Home,
     },
-    {
-        title: "Transactions",
-        url: "/alltransactions",
-        icon: Wallet,
-    },
+
     {
         title: "Statistics",
         url: "/alltransactions",
@@ -47,16 +43,16 @@ export function AppSidebar() {
     const pathname = usePathname()
     return (
         <Sidebar className=" h-screen w-64  border-r border-gray-200 bg-[#c2cac2]">
-            <SidebarContent className="bg-[#F6F7F6]">
+            <SidebarContent className="bg-gray-100">
                 <SidebarGroup>
-                    <SidebarGroupLabel className="flex justify-center text-2xl font-nono text-black mt-2">FINFLOW</SidebarGroupLabel>
+                    <SidebarGroupLabel className="flex justify-center text-2xl text-black mt-2 ">Finance Tracker</SidebarGroupLabel>
                     <SidebarGroupContent>
                         <SidebarMenu className="font-medium mt-16">
                             <h3 className="ml-5 font-nono text-[16px]">Main Menu</h3>
                             {Menuitems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className={`flex text-[20px] text-gray-700 pl-8 font-medium font-serif hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
+                                        <a href={item.url} className={`flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
@@ -71,7 +67,7 @@ export function AppSidebar() {
                             {ManagementMenuItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className={`flex text-[20px] text-gray-700 pl-8 font-medium font-serif hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
+                                        <a href={item.url} className={`flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
@@ -84,7 +80,7 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
 
-            <SidebarGroupLabel className="flex items-center justify-center text-2xl font-nono text-black  mb-4  p-4 gap-5">
+            <SidebarGroupLabel className="flex items-center justify-center text-2xl font-nono text-black  mb-4  p-4 gap-5 ">
                 <div className="flex gap-1">
                     <div> <img src="https://avatars.githubusercontent.com/u/106293653?v=4" alt="" className="w-9 h-9 rounded-full" /></div>
 
