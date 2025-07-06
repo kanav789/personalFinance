@@ -1,47 +1,34 @@
-"use client"
-import { AddTransaction } from "@/components/addTransaction";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import TransactionCard from "@/components/TransactionCard";
 
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
-} from "recharts";
-
-const data = [
-  { name: "Jan", Expense: 400 },
-  { name: "Feb", Expense: 300 },
-  { name: "Mar", Expense: 500 },
-  { name: "Apr", Expense: 200 },
-  { name: "May", Expense: 350 },
-  { name: "Jun", Expense: 250 },
-];
-
-import Notification from "@/components/Notification";
 export default function Home() {
-
   return (
-    <section className="bg-[#F5F7F9] min-h-screen flex flex-col items-center py-8 md:w-full ">
-      <h1 className="text-3xl font-bold mb-6">Finance Tracker</h1>
+    <section className="bg-white w-full">
 
-      <div className="w-full flex justify-center mb-8">
+      {/* header */}
+      <div>
+        <h2 className="text-2xl px-8 pt-9 font-medium">Dashboard</h2>
 
 
-        <AddTransaction />
-      </div>
-      <div className="w-full max-w-2xl bg-white rounded-lg shadow p-6">
-        <h2 className="text-xl font-semibold mb-4">Expenses Overview</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="Expense" fill="#6366f1" radius={[6, 6, 0, 0]} />
-          </BarChart>
-        </ResponsiveContainer>
+        <div className="mt-4 h-[1px] border border-gray-300 rounded-lg ">
+          {/* Your bordered content goes here */}
+        </div>
       </div>
 
+      {/* transactions */}
+      <div className="bg-gray-100 mt-5 p-5 rounded-2xl md:mx-2">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Transactions
+        </h2>
+        <h4 className="text-gray-600 text-sm">Track your purchase and payment information</h4>
+      </div>
+
+      {/* card Transactions  */}
+
+      <div className="flex md:flex-row flex-col">
+        <TransactionCard />
+
+      </div>
 
     </section>
-  );
+  )
 }
