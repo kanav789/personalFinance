@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/Sidebar";
-
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,11 +30,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} font-geist-sans antialiased bg-[#F5F7F9]`}
       >
         <main>
+          <AntdRegistry>
           <SidebarProvider>
             <AppSidebar />
             <SidebarTrigger className="md:hidden" />
             {children}
           </SidebarProvider>
+          </AntdRegistry>
         </main>
       </body>
     </html>

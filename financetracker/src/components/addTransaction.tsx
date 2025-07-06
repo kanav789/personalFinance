@@ -1,6 +1,6 @@
-"use client"
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
+"use client";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogClose,
@@ -9,13 +9,13 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { useForm, Controller } from "react-hook-form";
+import { ClipLoader } from "react-spinners";
 
 interface AddTransactionProps {
     onAdd?: any,
@@ -23,37 +23,37 @@ interface AddTransactionProps {
 }
 
 export function AddTransaction({ onAdd, onedit }: AddTransactionProps) {
-    const [edit, setEdit] = useState(false)
-    const [amount, setAmount] = useState("")
-    const [description, setDescription] = useState("")
-    const [date, setDate] = useState(new Date())
+    const [edit, setEdit] = useState(false);
+    const [Loader, setLoader] = useState(false);
+    const [open, setOpen] = useState(false);
+    const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
 
-    const handleSubmit = ({ e }: any) => {
-        e.preventDefault()
-        // if (!amount || !description) return
-        // if (onAdd) {
-        //     onAdd({
-        //         amount: parseFloat(amount),
-        //         description,
-        //         date,
-        //     })
-        // }
-        console.log(amount, description, date, "data")
-        // Reset fields
-        // setAmount("")
-        // setDescription("")
-        // setDate(new Date())
+    const onSubmit = async (data: any) => {
+        setLoader(true);
+        const body = { ...data };
+        const add = await fetch("api/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(body),
+        });
+        setLoader(false);
+        if (add?.status === 201) {
+            setOpen(false);
+            reset();
     }
+    };
 
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button className="px-6 py-3 text-lg font-semibold cursor-pointer">
-                    Add Expense
-                </Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={setOpen}>
+
+            <Button
+                className="px-6 py-3 text-lg font-semibold cursor-pointer"
+                onClick={() => setOpen(true)}
+            >
+                Add Expense
+            </Button>
             <DialogContent className="sm:max-w-[425px]">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>
                         <DialogTitle>
                             {edit ? "Edit Transaction" : "Add Transaction"}
@@ -69,12 +69,11 @@ export function AddTransaction({ onAdd, onedit }: AddTransactionProps) {
                             <Label htmlFor="amount">Amount</Label>
                             <Input
                                 id="amount"
-                                name="amount"
                                 type="number"
                                 min="0"
                                 step="0.01"
-                                value={amount}
-                                onChange={(e) => setAmount(e.target.value)}
+                                {...register("amount", { required: true, maxLength: 6 })}
+                                placeholder="Enter amount"
                                 required
                             />
                         </div>
@@ -82,34 +81,54 @@ export function AddTransaction({ onAdd, onedit }: AddTransactionProps) {
                             <Label htmlFor="description">Description</Label>
                             <Input
                                 id="description"
-                                name="description"
                                 type="text"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                {...register("description", { required: true })}
+                                placeholder="Where did you spend?"
                                 required
                             />
                         </div>
                         <div className="grid gap-3">
                             <Label htmlFor="date">Date</Label>
-                            <DatePicker
-                                selected={date}
-                                onChange={setDate}
-                                className="border px-3 py-2 rounded w-full"
-                                dateFormat="yyyy-MM-dd"
-                                id="date"
+                            <Controller
                                 name="date"
-                                required
+                                control={control}
+                                rules={{ required: true }}
+                                render={({ field }) => (
+                                    <DatePicker
+                                        {...field}
+                                        selected={field.value ? new Date(field.value) : null}
+                                        onChange={(date) => {
+                                            const formattedDate = date
+                                                ? date.toISOString().slice(0, 10)
+                                                : "";
+                                            field.onChange(formattedDate);
+                                        }}
+                                        className="border px-3 py-2 rounded w-full"
+                                        dateFormat="yyyy-MM-dd"
+                                        id="date"
+                                        required
+                                        placeholderText="Select a date"
+                                    />
+                                )}
                             />
                         </div>
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button variant="outline" type="button" className="cursor-pointer">Cancel</Button>
+                            <Button variant="outline" type="button" className="cursor-pointer">
+                                Cancel
+                            </Button>
                         </DialogClose>
-                        <Button type="submit" className="cursor-pointer">Save changes</Button>
+                        {Loader ? (
+                            <div><ClipLoader /></div>
+                        ) : (
+                            <Button type="submit" className="cursor-pointer">
+                                Save changes
+                            </Button>
+                        )}
                     </DialogFooter>
                 </form>
             </DialogContent>
         </Dialog>
-    )
+    );
 }

@@ -1,4 +1,4 @@
-import { BadgeDollarSign, Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { BadgeDollarSign, Calendar, Home, Inbox, Search, Settings, ArrowRightLeft } from "lucide-react"
 
 import {
     Sidebar,
@@ -19,15 +19,11 @@ const items = [
         icon: Home,
     },
     {
-        title: "Inbox",
-        url: "#",
-        icon: Inbox,
+        title: "View Transactions",
+        url: "/transactions",
+        icon: ArrowRightLeft,
     },
-    {
-        title: "All Transactions",
-        url: "#",
-        icon: Calendar,
-    },
+
 
 
 ]
