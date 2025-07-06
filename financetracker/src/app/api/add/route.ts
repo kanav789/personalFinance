@@ -1,16 +1,16 @@
 import dbConnect from "@/lib/db";
 import Transactions from "@/models/transactionModel";
 import {NextRequest,NextResponse} from "next/server"
-dbConnect();
 
 export async function POST(request:NextRequest){
 
   try {
+    // Connect to database
+    await dbConnect();
+    
     const reqBody =await request.json()
     const {amount,date,description} =reqBody;
     // validation
-    
-    const transactionId = Math.floor(Math.random() * 1000000).toString();
     if(!amount || !date || !description){
       return NextResponse.json({error:"Please provide all the required fields"}, {status:400});
     }
@@ -22,7 +22,6 @@ export async function POST(request:NextRequest){
     }
     // create transaction
     const newTransaction = new Transactions({
-      Id:transactionId,
       traAmount:amount,
       transactionDescription:description,
       transactionDate:new Date(date)

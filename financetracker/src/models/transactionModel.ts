@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 const transactionSchema =new mongoose.Schema({
-     Id:{
-        type:String,
-        required:true,
-        unique:true
-     },
+
      traAmount:{
       type:Number,
       required:true,
@@ -18,8 +14,6 @@ const transactionSchema =new mongoose.Schema({
       type:Date,
       required:true,
    }
-     
-     
 })
 
 const Transactions = mongoose.models.transactions||mongoose.model('transactions',transactionSchema);
