@@ -1,1 +1,1 @@
-https://dribbble.com/shots/24985637-Findeck-Finance-Tracker-Dashboa
+https://dribbble.com/shots/25558133-Finflow-Transaction-Finance-Dashboard
