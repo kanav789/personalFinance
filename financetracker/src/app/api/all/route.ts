@@ -13,6 +13,7 @@ export async function GET() {
  return NextResponse.json({message:"Transaction fetched successfully",data}, {status:200});
 
     } catch (error) {
-        
+        console.log("Error fetching transactions:", error);
+        return NextResponse.json({message:"Error fetching transactions",error}, {status:500});
     }
 }

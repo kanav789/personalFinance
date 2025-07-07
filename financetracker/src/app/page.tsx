@@ -1,14 +1,52 @@
+"use client";
 import TransactionsSection from "@/components/TableTransactions";
 import TransactionCard from "@/components/TransactionCard";
 import Transactions from "@/models/transactionModel";
-
+import { useEffect, useState } from "react";
+type Transaction = {
+  _id: string;
+  transactionDate: string;
+  transactionDescription: string;
+  traAmount: number;
+  __v?: number;
+};
+import axios from "axios"
+import { ClipLoader } from "react-spinners";
+import { AddTransaction } from "@/components/addTransaction";
 export default function Home() {
+  const [loader, setLoader] = useState(false)
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+
+  useEffect(() => {
+    fetchTransactions()
+  }, [])
+  async function fetchTransactions() {
+    try {
+      setLoader(true)
+
+      const data = await axios.get('/api/all')
+      console.log(data)
+      if (data?.data?.data?.length > 0) {
+        setTransactions(data?.data?.data)
+      }
+      setLoader(false)
+
+    } catch (error) {
+      console.log("Error fetching transactions:", error);
+      setLoader(false)
+    }
+  }
+
+
   return (
     <section className="bg-white w-full">
 
       {/* header */}
       <div className="px-2">
-        <h2 className="text-2xl px-8 pt-9 font-medium">Dashboard</h2>
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl px-8 pt-9 font-medium">Dashboard</h2>
+          <div className="mt-9 mx-6"> <AddTransaction /></div>
+        </div>
 
 
         <div className="mt-4 h-[1px] border border-gray-300 rounded-lg ">
@@ -18,7 +56,12 @@ export default function Home() {
 
 
 
-      {/* card Transactions  */}
+      {
+        loader ? (
+          <div className="flex justify-center items-center py-10"><ClipLoader /></div>
+        ) : (
+          <div>
+              {/* card Transactions  */}
 
       <div className="flex md:flex-row flex-col">
         <TransactionCard />
@@ -27,7 +70,10 @@ export default function Home() {
 
 
       {/* All Transactions */}
-      <TransactionsSection />
+            <TransactionsSection transactions={transactions} />
+          </div>
+        )
+      }
 
     </section>
   )

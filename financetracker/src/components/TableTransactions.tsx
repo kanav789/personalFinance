@@ -10,68 +10,23 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ClipLoader } from 'react-spinners';
 
-// Transaction data
-const transactions = [
-    // ...your transaction objects (same as before)
-    {
-        id: 1,
-        amount: 2500,
-        description: "Salary Payment - Monthly",
-        date: "2025-01-15",
-        category: "Income",
-        type: "credit",
-        status: "completed"
-    }, {
-        id: 2,
-        amount: -120,
-        description: "Grocery Shopping - Walmart",
-        date: "2025-01-14",
-        category: "Food & Dining",
-        type: "debit",
-        status: "completed"
-    },
-    {
-        id: 3,
-        amount: -60,
-        description: "Internet Bill - Fiber Connection",
-        date: "2025-01-13",
-        category: "Bills & Utilities",
-        type: "debit",
-        status: "completed"
-    },
-    {
-        id: 4,
-        amount: 1200,
-        description: "Freelance Project Payment",
-        date: "2025-01-12",
-        category: "Income",
-        type: "credit",
-        status: "completed"
-    },
-    {
-        id: 5,
-        amount: -350,
-        description: "Monthly Gym Membership",
-        date: "2025-01-11",
-        category: "Health & Fitness",
-        type: "debit",
-        status: "completed"
-    },
-    {
-        id: 6,
-        amount: -89,
-        description: "Coffee & Lunch - Downtown",
-        date: "2025-01-10",
-        category: "Food & Dining",
-        type: "debit",
-        status: "completed"
-    },
+// Type Definitions for your actual backend response
+type Transaction = {
+    _id: string;
+    transactionDate: string;
+    transactionDescription: string;
+    traAmount: number;
+    __v?: number;
+};
 
-];
+type Props = {
+    transactions: Transaction[];
+};
 
-// Helper functions
+// Helper to format the date
 const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', {
         month: 'short',
@@ -79,36 +34,35 @@ const formatDate = (dateString: string) =>
         year: 'numeric'
     });
 
-
-
-export default function TransactionsSection() {
+export default function TransactionsSection({ transactions }: Props) {
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedCategory] = useState("All");
-    const [sortBy] = useState("date");
-    const [sortOrder] = useState("desc");
+    const [sortBy] = useState<"date" | "amount">("date");
+    const [sortOrder] = useState<"asc" | "desc">("desc");
+    const [loader, setLoader] = useState(false);
 
-    // Filter and sort transactions (simplified for demo)
     const filteredTransactions = transactions
-        .filter(txn => {
-            const matchesSearch = txn.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                txn.category.toLowerCase().includes(searchTerm.toLowerCase());
-            const matchesCategory = selectedCategory === "All" || txn.category === selectedCategory;
-            return matchesSearch && matchesCategory;
+        ?.filter(txn => {
+            // Search only in description
+            const matchesSearch = txn.transactionDescription
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase());
+            return matchesSearch;
         })
         .sort((a, b) => {
-            let aValue, bValue;
+            let aValue: number | string, bValue: number | string;
             if (sortBy === "date") {
-                aValue = new Date(a.date).getTime();
-                bValue = new Date(b.date).getTime();
-            } else if (sortBy === "amount") {
-                aValue = Math.abs(a.amount);
-                bValue = Math.abs(b.amount);
-            } else {
-                aValue = a.description.toLowerCase();
-                bValue = b.description.toLowerCase();
-            }
-            return sortOrder === "asc" ? aValue - bValue : bValue - aValue;
+              aValue = new Date(a.transactionDate).getTime();
+              bValue = new Date(b.transactionDate).getTime();
+          } else {
+              aValue = Math.abs(a.traAmount);
+              bValue = Math.abs(b.traAmount);
+          }
+            return sortOrder === "asc" ? aValue - (bValue as number) : (bValue as number) - (aValue as number);
         });
+
+    if (loader) {
+        return <div className="flex justify-center items-center py-10"><ClipLoader /></div>;
+    }
 
     return (
         <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-6 space-y-6">
@@ -119,7 +73,6 @@ export default function TransactionsSection() {
                             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                                 Transaction History
                             </CardTitle>
-
                         </div>
                         <Badge variant="outline" className="px-3 py-1">
                             {filteredTransactions.length} transactions
@@ -145,7 +98,7 @@ export default function TransactionsSection() {
                             <TableBody>
                                 {filteredTransactions.map((txn) => (
                                     <TableRow
-                                        key={txn.id}
+                                        key={txn._id}
                                         className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200 border-b border-gray-100 dark:border-gray-800 group"
                                     >
                                         <TableCell className="py-4 px-3 sm:px-6">
@@ -155,23 +108,22 @@ export default function TransactionsSection() {
                                                 </div>
                                                 <div>
                                                     <div className="font-medium text-gray-900 dark:text-gray-100">
-                                                        {formatDate(txn.date)}
+                                                        {formatDate(txn.transactionDate)}
                                                     </div>
                                                     <div className="text-sm text-gray-500 dark:text-gray-400">
-                                                        {new Date(txn.date).toLocaleDateString('en-US', { weekday: 'short' })}
+                                                        {new Date(txn.transactionDate).toLocaleDateString('en-US', { weekday: 'short' })}
                                                     </div>
                                                 </div>
                                             </div>
                                         </TableCell>
                                         <TableCell className="py-4 px-3 sm:px-6">
                                             <div className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate max-w-xs">
-                                                {txn.description}
+                                                {txn.transactionDescription}
                                             </div>
                                         </TableCell>
                                         <TableCell className="py-4 px-3 sm:px-6 text-right">
-
                                             <span className='text-lg font-bold text-red-600'>
-                                                ₹{txn.amount}
+                                                ₹{txn.traAmount}
                                             </span>
                                         </TableCell>
                                     </TableRow>
@@ -179,13 +131,13 @@ export default function TransactionsSection() {
                             </TableBody>
                         </Table>
                     </div>
-                    {filteredTransactions.length === 0 && (
+                    {transactions.length === 0 && (
                         <div className="text-center py-12">
                             <div className="text-gray-500 dark:text-gray-400 text-lg">
                                 No transactions found
                             </div>
                             <div className="text-sm text-gray-400 dark:text-gray-500 mt-2">
-                                Try adjusting your search or filter criteria
+                                Try adjusting your search
                             </div>
                         </div>
                     )}
