@@ -85,8 +85,13 @@ export function AppSidebar() {
                     <div> <img src="https://avatars.githubusercontent.com/u/106293653?v=4" alt="" className="w-9 h-9 rounded-full" /></div>
 
                     <div className="flex flex-col items-start">
-                        <h2 className="text-[16px] text-nono text-gray-800">Admin</h2>
-                        <a className="text-[10px] text-gray-600 -mt-1">kanavcontact@gmail.com</a>
+                        <h2 className="text-[16px] text-nono text-gray-800">Dev</h2>
+                        <a
+                            href="mailto:kanavcontact@gmail.com"
+                            className="text-[10px] text-gray-600 -mt-1 cursor-pointer"
+                        >
+                            kanavcontact@gmail.com
+                        </a>
                     </div>
                 </div>
 
