@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Calendar, Delete, DeleteIcon, Trash } from 'lucide-react';
+import { Calendar } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -11,9 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ClipLoader } from 'react-spinners';
+
 import { EditTransactions } from './editTransaction';
-import axios from 'axios';
+
 
 // Type Definitions for your actual backend response
 type Transaction = {
@@ -36,17 +36,17 @@ const formatDate = (dateString: string) =>
     });
 
 export default function TransactionsSection({ transactions }: Props) {
-    const [searchTerm, setSearchTerm] = useState("");
+
     const [sortBy] = useState<"date" | "amount">("date");
     const [sortOrder] = useState<"asc" | "desc">("desc");
-    const [loader, setLoader] = useState(false);
+
 
     const filteredTransactions = transactions
         ?.filter(txn => {
             // Search only in description
             const matchesSearch = txn.transactionDescription
                 .toLowerCase()
-                .includes(searchTerm.toLowerCase());
+
             return matchesSearch;
         })
         .sort((a, b) => {
@@ -61,9 +61,7 @@ export default function TransactionsSection({ transactions }: Props) {
             return sortOrder === "asc" ? aValue - (bValue as number) : (bValue as number) - (aValue as number);
         });
 
-    if (loader) {
-        return <div className="flex justify-center items-center py-10"><ClipLoader /></div>;
-    }
+
 
     const [expandedDescriptions, setExpandedDescriptions] = useState<string[]>([]);
 
@@ -74,25 +72,6 @@ export default function TransactionsSection({ transactions }: Props) {
     };
 
 
-    const deleteTransaction = async (id: any) => {
-        console.log("Deleting transaction with ID:", id);
-        setLoader(true)
-        try {
-            await axios.post('api/delete', {
-                transactionId: id
-            }).then((res) => {
-                console.log("Transaction deleted successfully", res.data);
-                // setTransactions(prev => prev.filter(txn => txn._id !== id));
-
-                setLoader(false);
-            })
-
-        } catch (error) {
-            console.log("Error deleting transaction:", error);
-            setLoader(false);
-        }
-
-    }
 
 
     return (

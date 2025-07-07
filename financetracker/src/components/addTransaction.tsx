@@ -17,16 +17,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 
-interface AddTransactionProps {
-    onAdd?: any,
-    onedit?: any,
-}
 
 export function AddTransaction() {
 
     const [Loader, setLoader] = useState(false);
     const [open, setOpen] = useState(false);
-    const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, reset, } = useForm();
 
     const onSubmit = async (data: any) => {
         setLoader(true);

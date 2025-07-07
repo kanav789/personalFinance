@@ -21,15 +21,15 @@ import axios from "axios";
 
 export function EditTransactions(id: any) {
 
-    const [Loader, setLoader] = useState(false);
+
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
-    const [transactiondata, setTransactionData] = useState<any>({});
+
     const [buttonLoader, setButtonLoader] = useState(false)
 
     useEffect(() => {
         const fetchTransactionData = async () => {
-            setLoader(true);
+
             try {
 
                 const fetcheddata = await axios.post('api/get', {
@@ -48,11 +48,10 @@ export function EditTransactions(id: any) {
                 } else {
                     console.log("Failed to fetch transaction data");
                 }
-                setLoader(false);
 
             } catch (error) {
                 console.log("Error fetching transaction data:", error);
-                setLoader(false);
+
             }
         }
 
@@ -65,7 +64,7 @@ export function EditTransactions(id: any) {
 
 
     const onSubmit = async (data: any) => {
-        setLoader(true);
+        setButtonLoader(true);
         const body = {
             id: id.id,
             ...data
@@ -75,7 +74,7 @@ export function EditTransactions(id: any) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         });
-        setLoader(false);
+        setButtonLoader(false);
         if (edit?.status === 201) {
             setOpen(false);
             reset();

@@ -1,5 +1,5 @@
 "use client"
-import { BadgeDollarSign, ChartColumnBig, ExternalLink, Home, Wallet, } from "lucide-react"
+import { ChartColumnBig, ExternalLink, Home, } from "lucide-react"
 
 import {
     Sidebar,
