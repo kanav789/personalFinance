@@ -71,7 +71,7 @@ export default function TransactionsSection({ transactions }: Props) {
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div>
                             <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                                Transaction History
+                                Transaction 
                             </CardTitle>
                         </div>
                         <Badge variant="outline" className="px-3 py-1">

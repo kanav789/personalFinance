@@ -47,7 +47,7 @@ export function AddTransaction({ onAdd, onedit }: AddTransactionProps) {
         <Dialog open={open} onOpenChange={setOpen}>
 
             <Button
-                className="px-6 py-3 text-lg font-semibold cursor-pointer"
+                className="px-4 py-2 text-sm font-semibold cursor-pointer"
                 onClick={() => setOpen(true)}
             >
                 Add Expense
