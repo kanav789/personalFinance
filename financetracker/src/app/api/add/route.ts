@@ -9,7 +9,7 @@ export async function POST(request:NextRequest){
     await dbConnect();
     
     const reqBody =await request.json()
-    const {amount,date,description} =reqBody;
+    const {amount,date,description}:any =reqBody;
     // validation
     if(!amount || !date || !description){
       return NextResponse.json({error:"Please provide all the required fields"}, {status:400});
