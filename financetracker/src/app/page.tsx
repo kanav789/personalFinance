@@ -1,7 +1,6 @@
 "use client";
 import TransactionsSection from "@/components/TableTransactions";
 import TransactionCard from "@/components/TransactionCard";
-import Transactions from "@/models/transactionModel";
 import { useEffect, useState } from "react";
 type Transaction = {
   _id: string;
