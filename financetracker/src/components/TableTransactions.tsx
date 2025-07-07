@@ -28,7 +28,6 @@ type Props = {
     transactions: Transaction[];
 };
 
-// Helper to format the date
 const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', {
         month: 'short',

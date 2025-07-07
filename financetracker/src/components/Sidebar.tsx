@@ -23,7 +23,7 @@ const Menuitems = [
 
     {
         title: "Statistics",
-        url: "/alltransactions",
+        url: "/statistics",
         icon: ChartColumnBig,
     },
 
