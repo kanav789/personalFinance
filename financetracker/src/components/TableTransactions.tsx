@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Delete, DeleteIcon, Trash } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -12,6 +12,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ClipLoader } from 'react-spinners';
+import { EditTransactions } from './editTransaction';
+import axios from 'axios';
 
 // Type Definitions for your actual backend response
 type Transaction = {
@@ -63,6 +65,36 @@ export default function TransactionsSection({ transactions }: Props) {
     if (loader) {
         return <div className="flex justify-center items-center py-10"><ClipLoader /></div>;
     }
+
+    const [expandedDescriptions, setExpandedDescriptions] = useState<string[]>([]);
+
+    const toggleDescription = (id: string) => {
+        setExpandedDescriptions(prev =>
+            prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+        );
+    };
+
+
+    const deleteTransaction = async (id: any) => {
+        console.log("Deleting transaction with ID:", id);
+        setLoader(true)
+        try {
+            await axios.post('api/delete', {
+                transactionId: id
+            }).then((res) => {
+                console.log("Transaction deleted successfully", res.data);
+                // setTransactions(prev => prev.filter(txn => txn._id !== id));
+
+                setLoader(false);
+            })
+
+        } catch (error) {
+            console.log("Error deleting transaction:", error);
+            setLoader(false);
+        }
+
+    }
+
 
     return (
         <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-6 space-y-6">
@@ -117,15 +149,29 @@ export default function TransactionsSection({ transactions }: Props) {
                                             </div>
                                         </TableCell>
                                         <TableCell className="py-4 px-3 sm:px-6">
-                                            <div className="font-medium text-gray-900 dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate max-w-xs">
+                                            <div
+                                                className={`font-medium text-gray-900 w-[100px] flex flex-wrap md:w-[300px] dark:text-gray-100 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all duration-200 ease-in-out cursor-pointer ${expandedDescriptions.includes(txn._id) ? "" : "line-clamp-2"
+                                                    }`}
+                                                onClick={() => toggleDescription(txn._id)}
+                                            >
                                                 {txn.transactionDescription}
                                             </div>
+
                                         </TableCell>
                                         <TableCell className="py-4 px-3 sm:px-6 text-right">
                                             <span className='text-lg font-bold text-red-600'>
                                                 ₹{txn.traAmount}
                                             </span>
                                         </TableCell>
+                                        <TableCell className="py-4 px-3 sm:px-6 text-right">
+                                            <EditTransactions id={txn._id} />
+                                        </TableCell>
+                                        {/* <TableCell className="py-4 px-3 sm:px-6 text-right">
+                                            <button onClick={() => deleteTransaction(txn._id)} className="text-red-600 hover:text-red-800 transition-colors duration-200 cursor-pointer">
+
+                                                <Trash className="w-5 h-5 text-red-600 hover:text-red-800 transition-colors duration-200" />
+                                            </button>
+                                        </TableCell> */}
                                     </TableRow>
                                 ))}
                             </TableBody>

@@ -8,9 +8,9 @@ try {
     await dbConnect();
 
     
-    let {id, amount, description, date} = await request.json();
+    let {id, traAmount, transactionDescription, transactionDate} = await request.json();
      
-    if(!id || !amount || !description || !date){
+    if(!id || !traAmount || !transactionDescription || !transactionDate){
         return NextResponse.json({message:"Please fill all the fields"}, {status:400});
     }
 
@@ -21,15 +21,15 @@ try {
         return NextResponse.json({message:"Transaction not found"}, {status:404});
     }
 
-    // Update the transaction with correct field names
+    // Update the transaction by id and return the updated document
     const updatedTransaction = await Transactions.findByIdAndUpdate(
         id,
         {
-            traAmount: amount,
-            transactionDescription: description,
-            transactionDate: new Date(date)
+            traAmount,
+            transactionDescription,
+            transactionDate: new Date(transactionDate)
         },
-        { new: true } // Return the updated document
+        { new: true }
     );
 
     return NextResponse.json({

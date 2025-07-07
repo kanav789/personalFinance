@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
     Dialog,
@@ -16,51 +16,89 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
+import axios from "axios";
 
-interface AddTransactionProps {
-    onAdd?: any,
-    onedit?: any,
-}
 
-export function AddTransaction() {
+export function EditTransactions(id: any) {
 
     const [Loader, setLoader] = useState(false);
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
+    const [transactiondata, setTransactionData] = useState<any>({});
+    const [buttonLoader, setButtonLoader] = useState(false)
+
+    useEffect(() => {
+        const fetchTransactionData = async () => {
+            setLoader(true);
+            try {
+
+                const fetcheddata = await axios.post('api/get', {
+                    id: id.id
+                })
+
+
+
+                if (fetcheddata?.status === 200) {
+                    // setTransactionData(fetcheddata.data.transaction);
+                    reset({
+                        traAmount: fetcheddata.data.transaction.traAmount,
+                        transactionDescription: fetcheddata.data.transaction.transactionDescription,
+                        transactionDate: fetcheddata.data.transaction.transactionDate
+                    });
+                } else {
+                    console.log("Failed to fetch transaction data");
+                }
+                setLoader(false);
+
+            } catch (error) {
+                console.log("Error fetching transaction data:", error);
+                setLoader(false);
+            }
+        }
+
+
+        if (open) {
+            fetchTransactionData();
+        }
+
+    }, [id, open])
+
 
     const onSubmit = async (data: any) => {
         setLoader(true);
-        const body = { ...data };
-        const add = await fetch("api/add", {
+        const body = {
+            id: id.id,
+            ...data
+        };
+        const edit = await fetch("api/edit", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         });
         setLoader(false);
-        if (add?.status === 201) {
+        if (edit?.status === 201) {
             setOpen(false);
             reset();
-    }
+        }
     };
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
 
             <Button
-                className="px-4 py-2 text-sm font-semibold cursor-pointer"
+                className="px-3 py-1 text-sm font-medium cursor-pointer"
                 onClick={() => setOpen(true)}
             >
-                Add Expense
+                Edit
             </Button>
-            <DialogContent className="sm:max-w-[425px]">
+
+            <DialogContent className="sm:max-w-[425px] ">
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <DialogHeader>
                         <DialogTitle>
-                            {"Add Transaction"}
+                            {"Edit Transaction"}
                         </DialogTitle>
-                        <DialogDescription>
-                            {"Add a new expense to your tracker."}
-                        </DialogDescription>
+
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                         <div className="grid gap-3">
@@ -70,7 +108,7 @@ export function AddTransaction() {
                                 type="number"
                                 min="0"
                                 step="0.01"
-                                {...register("amount", { required: true, maxLength: 6 })}
+                                {...register("traAmount", { required: true, maxLength: 6 })}
                                 placeholder="Enter amount"
                                 required
                             />
@@ -80,7 +118,7 @@ export function AddTransaction() {
                             <Input
                                 id="description"
                                 type="text"
-                                {...register("description", { required: true })}
+                                {...register("transactionDescription", { required: true })}
                                 placeholder="Where did you spend?"
                                 required
                             />
@@ -88,7 +126,7 @@ export function AddTransaction() {
                         <div className="grid gap-3">
                             <Label htmlFor="date">Date</Label>
                             <Controller
-                                name="date"
+                                name="transactionDate"
                                 control={control}
                                 rules={{ required: true }}
                                 render={({ field }) => (
@@ -117,16 +155,17 @@ export function AddTransaction() {
                                 Cancel
                             </Button>
                         </DialogClose>
-                        {Loader ? (
+                        {buttonLoader ? (
                             <div><ClipLoader /></div>
                         ) : (
-                            <Button type="submit" className="cursor-pointer">
-                                Save changes
+                            <Button type="submit" className="cursor-pointer" disabled={buttonLoader}>
+                                {buttonLoader ? <ClipLoader size={20} /> : "Save"}
                             </Button>
                         )}
                     </DialogFooter>
                 </form>
             </DialogContent>
+
         </Dialog>
     );
 }
