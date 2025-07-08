@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { Calendar, Ellipsis } from 'lucide-react';
 import {
     Table,
     TableBody,
@@ -72,6 +72,12 @@ export default function TransactionsSection({ transactions }: Props) {
     };
 
 
+    const [activeTooltipId, setActiveTooltipId] = useState<string | null>(null);
+
+    const toggleTooltip = (id: string) => {
+        setActiveTooltipId(prev => (prev === id ? null : id));
+    };
+
 
 
     return (
@@ -141,15 +147,19 @@ export default function TransactionsSection({ transactions }: Props) {
                                                 ₹{txn.traAmount}
                                             </span>
                                         </TableCell>
-                                        <TableCell className="py-4 px-3 sm:px-6 text-right">
-                                            <EditTransactions id={txn._id} />
-                                        </TableCell>
-                                        {/* <TableCell className="py-4 px-3 sm:px-6 text-right">
-                                            <button onClick={() => deleteTransaction(txn._id)} className="text-red-600 hover:text-red-800 transition-colors duration-200 cursor-pointer">
 
-                                                <Trash className="w-5 h-5 text-red-600 hover:text-red-800 transition-colors duration-200" />
-                                            </button>
-                                        </TableCell> */}
+                                        <TableCell className="relative">
+
+
+                                            <button onClick={() => toggleTooltip(txn._id)} className='cursor-pointer'>
+                                                <span className={`absolute flex gap-2 -top-10 right-5  border  ${activeTooltipId === txn._id ? "block" : "hidden"}`}>
+                                                    <div className='flex flex-col gap-3 p-2'>
+                                                        <EditTransactions />
+                                                        <button className='px-3 py-1 text-sm font-medium cursor-pointer'>Delete</button>
+                                                    </div>
+                                                </span>
+                                                <Ellipsis /></button>
+                                        </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

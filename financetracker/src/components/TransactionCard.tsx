@@ -1,6 +1,15 @@
+import { useAppSelector } from "@/lib/hooks";
 import { ArrowLeftRight, Ellipsis } from "lucide-react";
 
 export default function TransactionCard() {
+    const alltransaction = useAppSelector(state => state?.data?.items)
+
+
+
+    const totalTransaction = alltransaction?.reduce((acc, item) => {
+        return acc + (item?.traAmount || 0);
+    }, 0);
+
     return (
         <section className="border border-gray-300 rounded-2xl p-5 mt-5 bg-white flex flex-col gap-4 md:mx-2 w-[350px] shadow-lg">
             {/* card header  */}
@@ -20,11 +29,9 @@ export default function TransactionCard() {
             </div>
             {/* total Transaction Amount */}
             <div>
-                <h2 className="text-2xl font-semibold text-gray-800 pl-4">₹ 1,200.00</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 pl-4">₹ {totalTransaction}</h2>
             </div>
-            <div>
-                <h3 className="text-sm font-medium text-gray-600">Since Last Month</h3>
-            </div>
+
 
 
 
