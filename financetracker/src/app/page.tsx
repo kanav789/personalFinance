@@ -12,7 +12,11 @@ type Transaction = {
 import axios from "axios"
 import { ClipLoader } from "react-spinners";
 import { AddTransaction } from "@/components/addTransaction";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setData } from "@/redux/feature/dateSlice";
 export default function Home() {
+  const dispatch = useAppDispatch()
+
   const [loader, setLoader] = useState(false)
   const [transactions, setTransactions] = useState<Transaction[]>([])
 
@@ -20,14 +24,16 @@ export default function Home() {
     fetchTransactions()
   }, [])
   async function fetchTransactions() {
+
     try {
       setLoader(true)
 
       const data = await axios.get('/api/all')
-      console.log(data)
+
       if (data?.data?.data?.length > 0) {
         setTransactions(data?.data?.data)
       }
+      dispatch(setData(data?.data?.data))
       setLoader(false)
 
     } catch (error) {
@@ -60,15 +66,15 @@ export default function Home() {
           <div className="flex justify-center items-center py-10"><ClipLoader /></div>
         ) : (
           <div>
-              {/* card Transactions  */}
+            {/* card Transactions  */}
 
-      <div className="flex md:flex-row flex-col">
-        <TransactionCard />
+            <div className="flex md:flex-row flex-col">
+              <TransactionCard />
 
-      </div>
+            </div>
 
 
-      {/* All Transactions */}
+            {/* All Transactions */}
             <TransactionsSection transactions={transactions} />
           </div>
         )
