@@ -15,12 +15,13 @@ import { AddTransaction } from "@/components/addTransaction";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
 import { useSelector } from "react-redux";
+import BudgetCard from "@/components/BudgetCard";
 export default function Home() {
   const dispatch = useAppDispatch()
 
   const [loader, setLoader] = useState(false)
   const data = useSelector((state: any) => state?.data?.items || []);
-  console.log("Data from Redux:", data);
+
   useEffect(() => {
     fetchTransactions()
   }, [])
@@ -69,8 +70,9 @@ export default function Home() {
           <div>
             {/* card Transactions  */}
 
-            <div className="flex md:flex-row flex-col">
+              <div className="flex md:flex-row flex-col pl-5">
               <TransactionCard />
+                <BudgetCard />
 
             </div>
 

@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/lib/hooks";
-import { ArrowLeftRight, Ellipsis } from "lucide-react";
+import { ArrowLeftRight } from "lucide-react";
 
 export default function TransactionCard() {
     const alltransaction = useAppSelector(state => state?.data?.items)
@@ -9,7 +9,7 @@ export default function TransactionCard() {
 
 
     return (
-        <section className="border border-gray-300 rounded-2xl p-5 mt-5 bg-white flex flex-col gap-4 md:mx-2 w-[350px] shadow-lg">
+        <section className="border border-gray-300 rounded-2xl p-5 mt-5 bg-white flex flex-col gap-4 md:mx-2 w-[320px] shadow-lg">
             {/* card header  */}
             <div className="flex justify-between">
 
@@ -22,7 +22,6 @@ export default function TransactionCard() {
                 </div>
                 {/* button  */}
 
-                <button className="text-gray-500 cursor-pointer"><Ellipsis /></button>
 
             </div>
             {/* total Transaction Amount */}

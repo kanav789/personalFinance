@@ -12,6 +12,7 @@ import {
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation"
+import Link from "next/link"
 
 // Menu items.
 const Menuitems = [
@@ -34,7 +35,7 @@ const ManagementMenuItems = [
 
     {
         title: "Settings",
-        url: "/settings",
+        url: "/setting",
         icon: ChartColumnBig,
     },
 ]
@@ -52,10 +53,10 @@ export function AppSidebar() {
                             {Menuitems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className={`flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
+                                        <Link href={item.url} className={`flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
@@ -67,10 +68,10 @@ export function AppSidebar() {
                             {ManagementMenuItems.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className={`flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
+                                        <Link href={item.url} className={`flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400  ${pathname === item.url ? "bg-gray-200" : ""}`}>
                                             <item.icon />
                                             <span>{item.title}</span>
-                                        </a>
+                                        </Link>
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
