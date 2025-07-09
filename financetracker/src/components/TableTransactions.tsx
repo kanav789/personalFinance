@@ -91,7 +91,7 @@ export default function TransactionsSection({ transactions }: Props) {
                             </CardTitle>
                         </div>
                         <Badge variant="outline" className="px-3 py-1">
-                            {filteredTransactions.length} transactions
+                            {filteredTransactions?.length} transactions
                         </Badge>
                     </div>
                 </CardHeader>
@@ -112,7 +112,7 @@ export default function TransactionsSection({ transactions }: Props) {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {filteredTransactions.map((txn) => (
+                                {filteredTransactions?.map((txn) => (
                                     <TableRow
                                         key={txn._id}
                                         className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-all duration-200 border-b border-gray-100 dark:border-gray-800 group"
@@ -165,7 +165,7 @@ export default function TransactionsSection({ transactions }: Props) {
                             </TableBody>
                         </Table>
                     </div>
-                    {transactions.length === 0 && (
+                    {transactions?.length === 0 && (
                         <div className="text-center py-12">
                             <div className="text-gray-500 dark:text-gray-400 text-lg">
                                 No transactions found

@@ -3,12 +3,10 @@ import { ArrowLeftRight, Ellipsis } from "lucide-react";
 
 export default function TransactionCard() {
     const alltransaction = useAppSelector(state => state?.data?.items)
-
-
-
     const totalTransaction = alltransaction?.reduce((acc, item) => {
         return acc + (item?.traAmount || 0);
     }, 0);
+
 
     return (
         <section className="border border-gray-300 rounded-2xl p-5 mt-5 bg-white flex flex-col gap-4 md:mx-2 w-[350px] shadow-lg">

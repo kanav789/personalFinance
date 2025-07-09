@@ -14,12 +14,13 @@ import { ClipLoader } from "react-spinners";
 import { AddTransaction } from "@/components/addTransaction";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
+import { useSelector } from "react-redux";
 export default function Home() {
   const dispatch = useAppDispatch()
 
   const [loader, setLoader] = useState(false)
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-
+  const data = useSelector((state: any) => state?.data?.items || []);
+  console.log("Data from Redux:", data);
   useEffect(() => {
     fetchTransactions()
   }, [])
@@ -31,9 +32,9 @@ export default function Home() {
       const data = await axios.get('/api/all')
 
       if (data?.data?.data?.length > 0) {
-        setTransactions(data?.data?.data)
-      }
       dispatch(setData(data?.data?.data))
+      }
+
       setLoader(false)
 
     } catch (error) {
@@ -75,7 +76,7 @@ export default function Home() {
 
 
             {/* All Transactions */}
-            <TransactionsSection transactions={transactions} />
+              <TransactionsSection transactions={data} />
           </div>
         )
       }
