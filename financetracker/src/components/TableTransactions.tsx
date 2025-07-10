@@ -143,7 +143,7 @@ export default function TransactionsSection({ transactions }: Props) {
 
                                         </TableCell>
                                         <TableCell className="py-4 px-3 sm:px-6 text-right">
-                                            <span className='text-lg font-bold text-red-600'>
+                                            <span className='text-sm font-medium text-gray-900'>
                                                 ₹{txn.traAmount}
                                             </span>
                                         </TableCell>
@@ -151,14 +151,14 @@ export default function TransactionsSection({ transactions }: Props) {
                                         <TableCell className="relative">
 
 
-                                            <button onClick={() => toggleTooltip(txn._id)} className='cursor-pointer'>
-                                                <span className={`absolute flex gap-2 -top-10 right-5  border  ${activeTooltipId === txn._id ? "block" : "hidden"}`}>
+                                            <button onClick={() => toggleTooltip(txn._id)} className='cursor-pointer '>
+                                                <span className={`absolute flex gap-2 -top-16 right-1 border  ${activeTooltipId === txn._id ? "block" : "hidden"}`}>
                                                     <div className='flex flex-col gap-3 p-2'>
                                                         <EditTransactions />
-                                                        <button className='px-3 py-1 text-sm font-medium cursor-pointer'>Delete</button>
+                                                        <button className='px-3 py-1 text-sm font-medium cursor-pointer '>Delete</button>
                                                     </div>
                                                 </span>
-                                                <Ellipsis /></button>
+                                                <Ellipsis size={18} /></button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
