@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 interface DataState {
     items: any[];
+
 }
 const initialState: DataState = {
-    items: []
+    items: [],
+
 
 }
 export const dataSlice = createSlice({
@@ -13,7 +15,8 @@ export const dataSlice = createSlice({
         setData: (state, action) => {
             state.items = action.payload
 
-        }
+        },
+
     }
 })
 

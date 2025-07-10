@@ -1,5 +1,5 @@
 "use client"
-import { ChartColumnBig, ExternalLink, Home, } from "lucide-react"
+import { ChartColumnBig, ExternalLink, HandCoins, Home, } from "lucide-react"
 
 import {
     Sidebar,
@@ -20,6 +20,11 @@ const Menuitems = [
         title: "Dashboard",
         url: "/",
         icon: Home,
+    },
+    {
+        title: "Budget",
+        url: "/budget",
+        icon: HandCoins,
     },
 
     {

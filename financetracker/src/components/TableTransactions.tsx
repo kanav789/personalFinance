@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { EditTransactions } from './editTransaction';
-
+import axios from 'axios';
 
 // Type Definitions for your actual backend response
 type Transaction = {
@@ -78,6 +78,27 @@ export default function TransactionsSection({ transactions }: Props) {
         setActiveTooltipId(prev => (prev === id ? null : id));
     };
 
+
+    const [loader, setLoader] = useState<boolean>(false)
+    const deleteTransaction = async (id: string) => {
+        console.log(id)
+        try {
+            setLoader(true)
+            await axios.post(`/api/delete`,
+                {
+
+                    id: id
+
+                }
+            );
+
+            setLoader(false)
+        } catch (error) {
+            console.log("Error deleting transaction:", error);
+            setLoader(false)
+        }
+
+    }
 
 
     return (
@@ -151,11 +172,11 @@ export default function TransactionsSection({ transactions }: Props) {
                                         <TableCell className="relative">
 
 
-                                            <button onClick={() => toggleTooltip(txn._id)} className='cursor-pointer '>
+                                            <button onClick={() => toggleTooltip(txn._id)} className=' '>
                                                 <span className={`absolute flex gap-2 -top-16 right-1 border  ${activeTooltipId === txn._id ? "block" : "hidden"}`}>
                                                     <div className='flex flex-col gap-3 p-2'>
-                                                        <EditTransactions />
-                                                        <button className='px-3 py-1 text-sm font-medium cursor-pointer '>Delete</button>
+                                                        <EditTransactions id={txn._id} />
+                                                        <button className='px-3 py-1 text-sm font-medium cursor-pointer' onClick={() => deleteTransaction(txn._id)}>Delete</button>
                                                     </div>
                                                 </span>
                                                 <Ellipsis size={18} /></button>
