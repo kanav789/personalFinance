@@ -18,7 +18,7 @@ export default function TransactionCard() {
                     <h2 className="bg-[#2572FE] text-white w-10 h-10 rounded-full flex items-center justify-center">
                         <ArrowLeftRight />
                     </h2>
-                    <h3 className="text-gray-800 font-medium text-xl">Total Transaction</h3>
+                    <h3 className="text-gray-800 font-medium text-lg md:text-xl">Total Transaction</h3>
                 </div>
                 {/* button  */}
 
@@ -26,7 +26,7 @@ export default function TransactionCard() {
             </div>
             {/* total Transaction Amount */}
             <div>
-                <h2 className="text-2xl font-semibold text-gray-800 pl-4">₹ {totalTransaction}</h2>
+                <h3 className="text-lg md:text-xl font-semibold text-gray-800 pl-4">₹ {totalTransaction}</h3>
             </div>
 
 

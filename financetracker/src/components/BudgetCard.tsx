@@ -22,7 +22,7 @@ export default function BudgetCard() {
                     <h2 className="bg-[#2572FE] text-white w-10 h-10 rounded-full flex items-center justify-center">
                         <Banknote />
                     </h2>
-                    <h3 className="text-gray-800 font-medium text-xl">Total Budget</h3>
+                    <h3 className="text-gray-800 font-medium text-lg md:text-xl">Total Budget</h3>
                 </div>
                 {/* button  */}
 
@@ -41,7 +41,7 @@ export default function BudgetCard() {
             </div>
             {/* total Transaction Amount */}
             <div>
-                <h2 className="text-2xl font-semibold text-gray-800 pl-4">₹ 90000</h2>
+                <h3 className="text-lg md:text-xl font-semibold text-gray-800 pl-4">₹ 90000</h3>
             </div>
 
         </section>
