@@ -17,6 +17,9 @@ import { useForm, Controller } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
 
+import { useAppDispatch } from "@/lib/hooks";
+import { setData } from "@/redux/feature/dateSlice";
+
 
 export function EditTransactions(id: any) {
 
@@ -27,7 +30,14 @@ export function EditTransactions(id: any) {
     const [buttonLoader, setButtonLoader] = useState(false)
 
     useEffect(() => {
-        const fetchTransactionData = async () => {
+
+
+
+        fetchTransactionData();
+
+
+    }, [])
+    const fetchTransactionData = async () => {
 
             try {
 
@@ -54,13 +64,7 @@ export function EditTransactions(id: any) {
             }
         }
 
-
-        if (open) {
-            fetchTransactionData();
-        }
-
-    }, [id, open])
-
+    const dispatch = useAppDispatch()
 
     const onSubmit = async (data: any) => {
         setButtonLoader(true);
@@ -73,11 +77,18 @@ export function EditTransactions(id: any) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
         });
-        setButtonLoader(false);
-        if (edit?.status === 201) {
+        console.log("edit", edit)
+
+        if (edit?.status === 200) {
+
+            const updatedTransactions = await axios.get('/api/all')
+            if (updatedTransactions.status === 200) {
+                dispatch(setData(updatedTransactions?.data?.data))
+            }
             setOpen(false);
             reset();
         }
+        setButtonLoader(false);
     };
 
     return (

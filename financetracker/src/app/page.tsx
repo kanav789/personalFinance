@@ -14,13 +14,12 @@ import { ClipLoader } from "react-spinners";
 import { AddTransaction } from "@/components/addTransaction";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
-import { useSelector } from "react-redux";
 import BudgetCard from "@/components/BudgetCard";
 export default function Home() {
   const dispatch = useAppDispatch()
 
   const [loader, setLoader] = useState(false)
-  const data = useSelector((state: any) => state?.data?.items || []);
+  const data = useAppSelector((state: any) => state?.data?.items || []);
 
   useEffect(() => {
     fetchTransactions()

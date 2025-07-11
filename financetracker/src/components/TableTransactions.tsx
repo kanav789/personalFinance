@@ -14,7 +14,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { EditTransactions } from './editTransaction';
 import axios from 'axios';
-
+import { useAppDispatch } from '@/lib/hooks';
+import { setData } from '@/redux/feature/dateSlice';
 // Type Definitions for your actual backend response
 type Transaction = {
     _id: string;
@@ -39,7 +40,7 @@ export default function TransactionsSection({ transactions }: Props) {
 
     const [sortBy] = useState<"date" | "amount">("date");
     const [sortOrder] = useState<"asc" | "desc">("desc");
-
+    const dispatch = useAppDispatch();
 
     const filteredTransactions = transactions
         ?.filter(txn => {
@@ -84,13 +85,22 @@ export default function TransactionsSection({ transactions }: Props) {
         console.log(id)
         try {
             setLoader(true)
-            await axios.post(`/api/delete`,
+            const res = await axios.post(`/api/delete`,
                 {
 
                     id: id
 
                 }
             );
+
+            if (res.status === 200) {
+
+                const updatedTransactions = await axios.get('/api/all')
+                if (updatedTransactions.status === 200) {
+                    dispatch(setData(updatedTransactions?.data?.data))
+
+                }
+            }
 
             setLoader(false)
         } catch (error) {
