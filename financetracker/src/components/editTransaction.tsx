@@ -94,12 +94,12 @@ export function EditTransactions(id: any) {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
 
-            <button
+            <span
                 className="px-3 py-1 text-sm font-medium cursor-pointer"
                 onClick={() => setOpen(true)}
             >
                 Edit
-            </button>
+            </span>
 
             <DialogContent className="sm:max-w-[425px] ">
                 <form onSubmit={handleSubmit(onSubmit)}>
