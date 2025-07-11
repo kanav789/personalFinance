@@ -19,7 +19,7 @@ export default function Home() {
   const dispatch = useAppDispatch()
 
   const [loader, setLoader] = useState(false)
-  const data = useAppSelector((state: any) => state?.data?.items || []);
+  const data = useAppSelector((state: any) => state?.data?.items);
 
   useEffect(() => {
     fetchTransactions()
@@ -31,7 +31,7 @@ export default function Home() {
 
       const data = await axios.get('/api/all')
 
-      if (data?.data?.data?.length > 0) {
+      if (data.status === 200) {
       dispatch(setData(data?.data?.data))
       }
 

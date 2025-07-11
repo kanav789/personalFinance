@@ -29,14 +29,13 @@ export function EditTransactions(id: any) {
 
     const [buttonLoader, setButtonLoader] = useState(false)
 
+
     useEffect(() => {
+        if (open) {
+            fetchTransactionData();
+        }
+    }, [open]);
 
-
-
-        fetchTransactionData();
-
-
-    }, [])
     const fetchTransactionData = async () => {
 
             try {
@@ -63,6 +62,7 @@ export function EditTransactions(id: any) {
 
             }
         }
+
 
     const dispatch = useAppDispatch()
 
