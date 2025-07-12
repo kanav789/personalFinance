@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/Sidebar";
 import StoreProvider from "./StoreProvider";
+import ConditionalLayout from "@/components/ConditionalLayout";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,11 +31,9 @@ export default function RootLayout({
         <main>
 
           <StoreProvider>
-            <SidebarProvider>
-            <AppSidebar />
-            <SidebarTrigger className="md:hidden" />
-            {children}
-          </SidebarProvider>
+            <ConditionalLayout>
+              {children}
+            </ConditionalLayout>
 
           </StoreProvider>
         </main>
