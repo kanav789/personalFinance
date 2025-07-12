@@ -1,6 +1,15 @@
 import mongoose from "mongoose";
-const budgetSchema =new mongoose.Schema({
+import User from "./UserModel";
 
+const budgetSchema =new mongoose.Schema({
+ 
+ userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User,
+        required: true,
+ },
+
+      
     budgetName:{
         type:String,
         unique:true,

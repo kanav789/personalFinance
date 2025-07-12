@@ -1,6 +1,13 @@
 import mongoose from "mongoose";
+import User from "./UserModel";
 
 const transactionSchema =new mongoose.Schema({
+     
+   userId:{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: User,
+      required: true,
+   },
 
      traAmount:{
       type:Number,
