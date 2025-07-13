@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const userSchema =new mongoose.Schema({
+    
     name:{
         type: String,
         required: true,
@@ -12,6 +13,7 @@ const userSchema =new mongoose.Schema({
         unique: true,
         match: /.+\@.+\..+/,
     },
+
    
 })
 const UserModel =mongoose.models.User || mongoose.model("User",userSchema)
