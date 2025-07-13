@@ -12,10 +12,7 @@ const userSchema =new mongoose.Schema({
         unique: true,
         match: /.+\@.+\..+/,
     },
-    password:{
-        type: String,
-        required: true,
-    },
+   
 })
 const UserModel =mongoose.models.User || mongoose.model("User",userSchema)
 export default UserModel; 
