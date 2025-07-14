@@ -3,10 +3,6 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import dbConnect from "./lib/db";
 import UserModel from "./models/UserModel";
-
-
-
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [GitHub],
    session: {

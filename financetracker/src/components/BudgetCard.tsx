@@ -26,16 +26,7 @@ export default function BudgetCard() {
                 </div>
                 {/* button  */}
 
-                <Tooltip>
-                    <TooltipTrigger asChild>
-                        <button className="relative text-gray-500 cursor-pointer">
 
-                            <Ellipsis /></button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                        <button className="cursor-pointer ">Add Budget</button>
-                    </TooltipContent>
-                </Tooltip>
 
 
             </div>

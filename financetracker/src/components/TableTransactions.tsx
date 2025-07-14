@@ -46,7 +46,7 @@ export default function TransactionsSection({ transactions }: Props) {
         ?.filter(txn => {
             // Search only in description
             const matchesSearch = txn.transactionDescription
-                .toLowerCase()
+                ?.toLowerCase()
 
             return matchesSearch;
         })
