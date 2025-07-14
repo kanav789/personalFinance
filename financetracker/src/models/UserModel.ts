@@ -13,6 +13,10 @@ const userSchema =new mongoose.Schema({
         unique: true,
         match: /.+\@.+\..+/,
     },
+    image:{
+        type: String,
+        required: true,
+    }
 
    
 })

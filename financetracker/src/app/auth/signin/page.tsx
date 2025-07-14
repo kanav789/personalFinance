@@ -1,14 +1,8 @@
 'use server'
-import { auth } from "@/auth";
 import { SignInButton } from "@/components/loginButton";
 import { Button } from "@/components/ui/button";
-
 import { Chrome } from "lucide-react";
-
 export default async function SignIn() {
-
-    const session = await auth();
-    console.log("Session:", session);
     return (
         <section className="flex flex-col items-center justify-center min-h-screen w-full bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center w-80">

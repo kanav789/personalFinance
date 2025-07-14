@@ -15,6 +15,7 @@ import { AddTransaction } from "@/components/addTransaction";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
 import BudgetCard from "@/components/BudgetCard";
+
 export default function Home() {
   const dispatch = useAppDispatch()
 

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 import ConditionalLayout from "@/components/ConditionalLayout";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,7 +35,6 @@ export default function RootLayout({
             <ConditionalLayout>
               {children}
             </ConditionalLayout>
-
           </StoreProvider>
         </main>
       </body>
