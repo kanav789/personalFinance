@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/sidebar"
 import { usePathname } from "next/navigation"
 import Link from "next/link"
+import LogoutButton from "./logoutButton"
 
 // Menu items.
 const Menuitems = [
@@ -87,6 +88,7 @@ export function AppSidebar() {
             </SidebarContent>
 
             <SidebarGroupLabel className="flex items-center justify-center text-2xl font-nono text-black  mb-4  p-4 gap-5 ">
+
                 <div className="flex gap-1">
                     <div> <img src="https://avatars.githubusercontent.com/u/106293653?v=4" alt="" className="w-9 h-9 rounded-full" /></div>
 

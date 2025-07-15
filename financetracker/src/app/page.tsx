@@ -2,20 +2,12 @@
 import TransactionsSection from "@/components/TableTransactions";
 import TransactionCard from "@/components/TransactionCard";
 import { useEffect, useState } from "react";
-type Transaction = {
-  _id: string;
-  transactionDate: string;
-  transactionDescription: string;
-  traAmount: number;
-  __v?: number;
-};
 import axios from "axios"
 import { ClipLoader } from "react-spinners";
 import { AddTransaction } from "@/components/addTransaction";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
 import BudgetCard from "@/components/BudgetCard";
-
 export default function Home() {
   const dispatch = useAppDispatch()
 
@@ -43,7 +35,6 @@ export default function Home() {
       setLoader(false)
     }
   }
-
 
   return (
     <section className="bg-white w-full">

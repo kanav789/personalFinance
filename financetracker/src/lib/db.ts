@@ -1,21 +1,13 @@
 
 import mongoose from "mongoose"
-const mongodburl = process.env.MONGODB_URL;
+const mongodburl = process.env.MONGODB_URL || "mongodb+srv://khiladicoder:rNgCvqfm0VAObNoE@cluster0.bfpxcda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 if(!mongodburl) {
     throw new Error("MONGODB_URL is not defined in .env file");
 }
 
-// type connectionObject = {
-//     isConnected?: number;
-// }
-// const connection :connectionObject ={}
 async function dbConnect(){
 
-    // if(connection.isConnected){
-    //     console.log('Already Connected to database')
-    //     return;
-    // } 
-  
+ 
 
     try {
      await mongoose.connect(mongodburl||"")

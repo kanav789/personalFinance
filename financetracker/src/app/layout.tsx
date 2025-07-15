@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "./StoreProvider";
 import ConditionalLayout from "@/components/ConditionalLayout";
+import { SessionProvider } from "next-auth/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,8 +34,10 @@ export default function RootLayout({
 
           <StoreProvider>
             <ConditionalLayout>
-              {children}
+              <SessionProvider> {children}
+              </SessionProvider>
             </ConditionalLayout>
+
           </StoreProvider>
         </main>
       </body>
