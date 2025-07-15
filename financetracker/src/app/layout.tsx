@@ -4,6 +4,7 @@ import "./globals.css";
 import StoreProvider from "./StoreProvider";
 import ConditionalLayout from "@/components/ConditionalLayout";
 import { SessionProvider } from "next-auth/react";
+import Protector from "@/components/Protector";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,8 +35,9 @@ export default function RootLayout({
 
           <StoreProvider>
             <ConditionalLayout>
-              <SessionProvider> {children}
-              </SessionProvider>
+
+              <SessionProvider>  <Protector>{children}</Protector></SessionProvider>
+
             </ConditionalLayout>
 
           </StoreProvider>
