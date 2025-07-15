@@ -14,6 +14,7 @@ import {
 import { usePathname } from "next/navigation"
 import Link from "next/link"
 import LogoutButton from "./logoutButton"
+import { logout } from "@/helpers/serverfunction/action"
 
 // Menu items.
 const Menuitems = [
@@ -81,6 +82,9 @@ export function AppSidebar() {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
+                        </SidebarMenu>
+                        <SidebarMenu className="font-medium mt-8">
+                            <button onClick={() => logout()} className="cursor-pointer">Logout</button>
                         </SidebarMenu>
                     </SidebarGroupContent>
 
