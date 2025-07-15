@@ -16,8 +16,8 @@ export default function Protector({ children }: { children: React.ReactNode }) {
     }, [status, router]);
 
     if (status === "loading") {
-        return <div>
-            <ClipLoader size={30} />
+        return <div className="flex items-center justify-center h-screen mx-auto">
+            <ClipLoader size={50} />
         </div>;
     }
 
