@@ -15,35 +15,39 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ClipLoader } from "react-spinners";
 import axios from "axios";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
+import { GetData, PostData } from "@/lib/customfetchdata";
 export default function AddBudget() {
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, control, reset, } = useForm();
     const [Loader, setLoader] = useState(false)
     const dispatch = useAppDispatch()
+    const userdata = useAppSelector((state): any => state?.auth?.user)
     const onSubmit = async (data: any) => {
         try {
             setLoader(true);
             const body = {
                 ...data,
+                email: userdata?.user?.email
             }
-            const response = await axios.post('api/budget/add', body)
-            if (response.status === 200) {
-                const addedbudget = await axios.get('api/budget/list', {
+            const response = await PostData('api/budget/add', body)
 
-                })
+            if (response) {
+                const addedbudget = await GetData('api/budget/list')
 
-                if (addedbudget.status === 200) {
-
-                    dispatch(setData(addedbudget?.data));
+                if (addedbudget) {
+                    console.log("Added budget:", addedbudget);
+                    dispatch(setData(addedbudget));
                     reset();
                     setOpen(false)
                 }
             }
+            reset()
             setLoader(false);
         } catch (error) {
             setLoader(false);
+            reset()
 
             console.error("Error adding budget:", error);
 
@@ -101,7 +105,7 @@ export default function AddBudget() {
                             </Button>
                         </DialogClose>
                         {Loader ? (
-                            <div><ClipLoader /></div>
+                            <div className="flex justify-center"><ClipLoader /></div>
                         ) : (
                             <Button type="submit" className="cursor-pointer">
                                 Add
