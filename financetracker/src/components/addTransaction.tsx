@@ -16,7 +16,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
-import { useAppSelector } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { GetData, PostData } from "@/lib/customfetchdata";
+import { setData } from "@/redux/feature/dateSlice";
 
 
 export function AddTransaction() {
@@ -25,18 +27,19 @@ export function AddTransaction() {
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, control, reset, } = useForm();
     const userdata = useAppSelector((state: any) => state?.auth?.user)
+    const dispacth = useAppDispatch()
     console.log("User Data:", userdata?.user?.email);
     const onSubmit = async (data: any) => {
         setLoader(true);
         const body = { ...data, email: userdata?.user?.email };
-        const add = await fetch("api/add", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
-        });
+        const add = await PostData("/api/add", body);
+        console.log(add, "add")
         setLoader(false);
-        if (add?.status === 201) {
+        if (add) {
+            const data = await GetData("/api/all")
+            dispacth(setData(data?.data))
             setOpen(false);
+
             reset();
     }
     };
