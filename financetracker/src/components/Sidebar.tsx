@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 import LogoutButton from "./logoutButton"
 import { logout } from "@/helpers/serverfunction/action"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 
 // Menu items.
 const Menuitems = [
@@ -49,6 +50,8 @@ const ManagementMenuItems = [
 
 export function AppSidebar() {
     const pathname = usePathname()
+    const userdata = useAppSelector((state): any => state?.auth?.user)
+    console.log(userdata?.user, "userdata in sidebar");
     return (
         <Sidebar className=" h-screen w-64  border-r border-gray-200 bg-[#c2cac2]">
             <SidebarContent className="bg-gray-100">
@@ -82,10 +85,8 @@ export function AppSidebar() {
                                     </SidebarMenuButton>
                                 </SidebarMenuItem>
                             ))}
-                        </SidebarMenu>
-                        <SidebarMenu className="font-medium mt-8">
-                            <button onClick={() => logout()} className="cursor-pointer">Logout</button>
-                        </SidebarMenu>
+                        </SidebarMenu>  
+
                     </SidebarGroupContent>
 
                 </SidebarGroup>
@@ -94,22 +95,22 @@ export function AppSidebar() {
             <SidebarGroupLabel className="flex items-center justify-center text-2xl font-nono text-black  mb-4  p-4 gap-5 ">
 
                 <div className="flex gap-1">
-                    <div> <img src="https://avatars.githubusercontent.com/u/106293653?v=4" alt="" className="w-9 h-9 rounded-full" /></div>
+                    <div> <img src={userdata?.user?.image} alt="" className="w-9 h-9 rounded-full" /></div>
 
                     <div className="flex flex-col items-start">
-                        <h2 className="text-[16px] text-nono text-gray-800">Dev</h2>
-                        <a
-                            href="mailto:kanavcontact@gmail.com"
-                            className="text-[10px] text-gray-600 -mt-1 cursor-pointer"
+                        <h2 className="text-[16px] text-nono text-gray-800">{userdata?.user?.name}</h2>
+                        <p
+
+                            className="text-[10px] text-gray-600 -mt-1 "
                         >
-                            kanavcontact@gmail.com
-                        </a>
+                            {userdata?.user?.email || "<Email>"}
+                        </p>
                     </div>
                 </div>
 
-                <div className="text-gray-600 hover:text-gray-800 transition-colors duration-300 text-[10px] cursor-pointer -mt-[10px]">
+                <button className="text-gray-600 hover:text-gray-800 transition-colors duration-300 text-[10px] cursor-pointer -mt-[10px]" onClick={() => logout()}>
                     <ExternalLink />
-                </div>
+                </button>
 
 
             </SidebarGroupLabel>

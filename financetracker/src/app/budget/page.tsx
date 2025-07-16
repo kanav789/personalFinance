@@ -10,13 +10,19 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Calendar, Ellipsis, Trash } from "lucide-react";
-import { formatDate } from "@/helpers/commonfunction";
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import AddBudget from "@/components/addBudget";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { setData } from "@/redux/feature/dateSlice";
 import { ClipLoader } from "react-spinners";
+const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
 
 export default function BudgetPage() {
     const data = useAppSelector((state: any) => state?.data?.items)
