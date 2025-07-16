@@ -165,10 +165,10 @@ export function EditTransactions(id: any) {
                             </Button>
                         </DialogClose>
                         {buttonLoader ? (
-                            <div><ClipLoader /></div>
+                            <div className="flex justify-center"><ClipLoader /></div>
                         ) : (
                             <Button type="submit" className="cursor-pointer" disabled={buttonLoader}>
-                                {buttonLoader ? <ClipLoader size={20} /> : "Save"}
+                                    {buttonLoader ? <div className=""><ClipLoader size={20} /></div> : "Save"}
                             </Button>
                         )}
                     </DialogFooter>
