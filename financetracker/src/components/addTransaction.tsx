@@ -16,6 +16,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm, Controller } from "react-hook-form";
 import { ClipLoader } from "react-spinners";
+import { useAppSelector } from "@/lib/hooks";
 
 
 export function AddTransaction() {
@@ -23,10 +24,11 @@ export function AddTransaction() {
     const [Loader, setLoader] = useState(false);
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, control, reset, } = useForm();
-
+    const userdata = useAppSelector((state: any) => state?.auth?.user)
+    console.log("User Data:", userdata?.user?.email);
     const onSubmit = async (data: any) => {
         setLoader(true);
-        const body = { ...data };
+        const body = { ...data, email: userdata?.user?.email };
         const add = await fetch("api/add", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
