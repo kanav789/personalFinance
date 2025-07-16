@@ -116,7 +116,7 @@ export function AddTransaction() {
                             </Button>
                         </DialogClose>
                         {Loader ? (
-                            <div><ClipLoader /></div>
+                            <div className="flex justify-center"><ClipLoader /></div>
                         ) : (
                             <Button type="submit" className="cursor-pointer">
                                 Save changes
