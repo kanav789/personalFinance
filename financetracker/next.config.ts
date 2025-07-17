@@ -4,9 +4,12 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  images:{
-    
-  }
+   generateBuildId: async () => {
+    // This could be anything, using the latest git hash
+    return process.env.GIT_HASH ?? null;
+  },
+  reactStrictMode: true,
+  
 
 };
 
