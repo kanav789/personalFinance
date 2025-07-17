@@ -1,15 +1,27 @@
+import { checkuser } from "@/helpers/middleware/middleware";
 import dbConnect from "@/lib/db";
 import budget from "@/models/BudgetModel";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(){
+export async function POST(request: NextRequest){
 try {
     dbConnect();
-  const allbudget =await budget.find();
+    const body = await request.json();
+    const {email} = body;
+    if(!email){
+        return NextResponse.json({ error: "Email is required" }, { status: 400 });
+    }
+    const user = await checkuser(email);
+    
+    if(!user){
+        return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+    const allbudget = await budget.find({userId: user.Id});
+
     if (!allbudget) {
         return NextResponse.json({ error: "No budgets found" }, { status: 404 });
     }
-    return NextResponse.json(allbudget, { status: 200 });
+    return NextResponse.json({message: "Budgets retrieved successfully", data: allbudget}, { status: 200 });
 } catch (error) {
     console.log("Error in GET /api/budget/all:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500})
