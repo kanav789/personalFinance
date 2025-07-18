@@ -15,6 +15,7 @@ import { usePathname } from "next/navigation"
 import Link from "next/link"
 
 import { logout } from "@/helpers/serverfunction/action"
+import { useAppSelector } from "@/lib/hooks"
 
 // Menu items.
 const Menuitems = [
@@ -49,6 +50,7 @@ const ManagementMenuItems = [
 
 export function AppSidebar() {
     const pathname = usePathname()
+    const userdata = useAppSelector((state): any => state?.auth?.user)
 
     return (
         <Sidebar className=" h-screen w-64  border-r border-gray-200 bg-[#c2cac2]">
@@ -93,17 +95,18 @@ export function AppSidebar() {
             <SidebarGroupLabel className="flex items-center justify-center text-2xl font-nono text-black  mb-4  p-4 gap-5 ">
 
                 <div className="flex gap-1">
-                    <div> <img src="https://avatars.githubusercontent.com/u/106293653?v=4" alt="" className="w-9 h-9 rounded-full" /></div>
+                    <div> <img src={userdata?.user?.image || "https://avatars.githubusercontent.com/u/106293653?v=4"} alt="" className="w-9 h-9 rounded-full" /></div>
 
                     <div className="flex flex-col items-start">
-                        <h2 className="text-[16px] text-nono text-gray-800">Dev</h2>
-                        <a
-                            href="mailto:kanavcontact@gmail.com"
-                            className="text-[10px] text-gray-600 -mt-1 cursor-pointer"
+                        <h2 className="text-[14px] text-nono text-gray-800">{userdata?.user?.name || "User Name"}</h2>
+                        <p
+
+                            className="text-[7px] text-gray-600 -mt-1"
                         >
-                            kanavcontact@gmail.com
-                        </a>
+                            {userdata?.user?.email || "user@gmail.com"}
+                        </p>
                     </div>
+
                 </div>
 
                 <button className="text-gray-600 hover:text-gray-800 transition-colors duration-300 text-[10px] cursor-pointer -mt-[10px]" onClick={() => logout()}>

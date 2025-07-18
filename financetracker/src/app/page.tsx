@@ -13,26 +13,32 @@ export default function Home() {
 
   const [loader, setLoader] = useState(false)
   const data = useAppSelector((state: any) => state?.data?.items);
+  const userdata = useAppSelector((state: any) => state?.auth?.user)
+
+
 
   useEffect(() => {
-    fetchTransactions()
-  }, [])
+    if (userdata && userdata.user && userdata.user.email) {
+      fetchTransactions();
+    }
+  }, [userdata]);
+
   async function fetchTransactions() {
-
     try {
-      setLoader(true)
-
-      const data = await axios.get('/api/all')
+      setLoader(true);
+      const body = {
+        email: userdata.user.email
+      };
+      const data = await axios.post('/api/all', body);
 
       if (data.status === 200) {
-      dispatch(setData(data?.data?.data))
+        dispatch(setData(data?.data?.data));
       }
 
-      setLoader(false)
-
+      setLoader(false);
     } catch (error) {
       console.log("Error fetching transactions:", error);
-      setLoader(false)
+      setLoader(false);
     }
   }
 
