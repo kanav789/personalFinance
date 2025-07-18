@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { setData } from "@/redux/feature/dateSlice";
 import { ClipLoader } from "react-spinners";
+import { PostData } from "@/lib/customfetchdata";
 const formatDate = (dateString: string) =>
     new Date(dateString).toLocaleDateString('en-US', {
         month: 'short',
@@ -26,38 +27,31 @@ const formatDate = (dateString: string) =>
 
 export default function BudgetPage() {
     const data = useAppSelector((state: any) => state?.data?.items)
-    const budget = [
-        {
-            _id: "1",
-            transactionDate: "2023-10-01",
-            transactionDescription: "Grocery Shopping",
-            traAmount: 1500,
-        },
-        {
-            _id: "2",
-            transactionDate: "2023-10-05",
-            transactionDescription: "Electricity Bill",
-            traAmount: 800,
-        },
-        {
-            _id: "3",
-            transactionDate: "2023-10-10",
-            transactionDescription: "Internet Bill",
-            traAmount: 600,
-        }
-    ]
+
     const dispatch = useAppDispatch()
+    const userdata = useAppSelector((state: any) => state?.auth?.user)
+    console.log(userdata
+    )
     const [Loader, setLoader] = useState<boolean>(false)
     useEffect(() => {
-        fetchBudget();
+        if (userdata && userdata.user && userdata.user.email) {
+            fetchBudget();
+        }
     }, [])
 
     const fetchBudget = async () => {
 
         try {
+            if (!userdata?.user?.email) return
+
+
+
             setLoader(true)
-            const response = await axios.get('/api/budget/list');
-            if (response.status === 200) {
+            const body = {
+                email: userdata?.user?.email
+            }
+            const response = await PostData('/api/budget/list', body);
+            if (response) {
                 dispatch(setData(response?.data))
 
             }
@@ -149,7 +143,7 @@ export default function BudgetPage() {
                                                 </TableHead>
                                             </TableRow>
                                         </TableHeader>
-                                        <TableBody>
+                                            {data?.length > 0 && <TableBody>
                                             {data?.map((txn: any) => (
                                                 <TableRow
                                                     key={txn._id}
@@ -192,10 +186,10 @@ export default function BudgetPage() {
                                                     </TableCell>
                                                 </TableRow>
                                             ))}
-                                        </TableBody>
+                                            </TableBody>}
                                     </Table>
                                 </div>
-                                {budget?.length === 0 && (
+                                    {data?.length === 0 && (
                                     <div className="text-center py-12">
                                         <div className="text-gray-500 dark:text-gray-400 text-lg">
                                             No transactions found

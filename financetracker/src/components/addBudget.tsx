@@ -14,10 +14,9 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ClipLoader } from "react-spinners";
-import axios from "axios";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setData } from "@/redux/feature/dateSlice";
-import { GetData, PostData } from "@/lib/customfetchdata";
+import { PostData } from "@/lib/customfetchdata";
 export default function AddBudget() {
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, control, reset, } = useForm();
@@ -34,7 +33,8 @@ export default function AddBudget() {
             const response = await PostData('api/budget/add', body)
 
             if (response) {
-                const addedbudget = await GetData('api/budget/list')
+
+                const addedbudget = await PostData('api/budget/list', body)
 
                 if (addedbudget) {
                     console.log("Added budget:", addedbudget);
