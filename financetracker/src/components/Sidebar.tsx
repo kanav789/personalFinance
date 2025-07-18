@@ -84,9 +84,7 @@ export function AppSidebar() {
                                 </SidebarMenuItem>
                             ))}
                         </SidebarMenu>
-                        <SidebarMenu className="font-medium mt-8">
-                            <button onClick={() => logout()} className="flex text-lg font-medium   text-gray-900  pl-8   hover:bg-gray-400 cursor-pointer">Logout</button>
-                        </SidebarMenu>
+
                     </SidebarGroupContent>
 
                 </SidebarGroup>
@@ -108,9 +106,9 @@ export function AppSidebar() {
                     </div>
                 </div>
 
-                <div className="text-gray-600 hover:text-gray-800 transition-colors duration-300 text-[10px] cursor-pointer -mt-[10px]">
+                <button className="text-gray-600 hover:text-gray-800 transition-colors duration-300 text-[10px] cursor-pointer -mt-[10px]" onClick={() => logout()}>
                     <ExternalLink />
-                </div>
+                </button>
 
 
             </SidebarGroupLabel>
