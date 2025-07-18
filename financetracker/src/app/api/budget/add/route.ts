@@ -16,7 +16,14 @@ export async function POST(request:NextRequest){
         const user = await checkuser(email);
         if(!user){
             return NextResponse.json({message:"User not found"}, { status: 404 });
+       }
+        // check the same name of budget is already present or not
+        const existingBudget = await budget.findOne({ budgetName, userId: user._id });
+        if (existingBudget) {
+            return NextResponse.json({ message: "Budget with this name already exists" }, { status: 400 });
         }
+ 
+
         const date = new Date();
         const expiryDate = new Date(date.getFullYear(), date.getMonth() + 1, 0);
         const newBudget= new budget({
