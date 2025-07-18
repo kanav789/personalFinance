@@ -18,12 +18,7 @@ export default async function SignIn() {
             <div className="bg-white p-8 rounded-lg shadow-md flex flex-col items-center w-80">
                 <h2 className="text-2xl font-bold mb-6">Sign In</h2>
                 <SignInButton />
-                <Button
-                    className="flex items-center w-full bg-white border border-gray-300 text-gray-700 hover:bg-gray-50"
-                >
-                    <Chrome className="mr-2 text-blue-500" size={20} />
-                    Sign In with Google
-                </Button>
+
                 <p className="mt-8 text-xs text-gray-400 text-center w-full">
                     &copy; {new Date().getFullYear()} Fin Tracker. All rights reserved.
                 </p>
