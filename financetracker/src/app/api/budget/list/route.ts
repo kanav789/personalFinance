@@ -16,7 +16,9 @@ try {
     if(!user){
         return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
-    const allbudget = await budget.find({userId: user.Id});
+    console.log("User found:", user);
+
+    const allbudget = await budget.find({userId: user._id});
 
     if (!allbudget) {
         return NextResponse.json({ error: "No budgets found" }, { status: 404 });

@@ -12,7 +12,6 @@ const budgetSchema =new mongoose.Schema({
       
     budgetName:{
         type:String,
-        unique:true,
         required:true
     },
     budgetAmount:{
