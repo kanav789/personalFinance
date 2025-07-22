@@ -14,8 +14,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { EditTransactions } from './editTransaction';
 import axios from 'axios';
-import { useAppDispatch } from '@/lib/hooks';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { setData } from '@/redux/feature/dateSlice';
+import { PostData } from '@/lib/customfetchdata';
 // Type Definitions for your actual backend response
 type Transaction = {
     _id: string;
@@ -81,11 +82,12 @@ export default function TransactionsSection({ transactions }: Props) {
 
 
     const [loader, setLoader] = useState<boolean>(false)
+    const userData = useAppSelector((state): any => state.auth.user);
     const deleteTransaction = async (id: string) => {
         console.log(id)
         try {
             setLoader(true)
-            const res = await axios.post(`/api/delete`,
+            const res = await PostData(`/api/delete`,
                 {
 
                     id: id
@@ -93,11 +95,14 @@ export default function TransactionsSection({ transactions }: Props) {
                 }
             );
 
-            if (res.status === 200) {
+            if (res) {
 
-                const updatedTransactions = await axios.get('/api/all')
-                if (updatedTransactions.status === 200) {
-                    dispatch(setData(updatedTransactions?.data?.data))
+                const body = {
+                    email: userData?.user?.email
+                }
+                const updatedTransactions = await PostData('/api/all', body)
+                if (updatedTransactions) {
+                    dispatch(setData(updatedTransactions?.data))
 
                 }
             }
@@ -181,15 +186,34 @@ export default function TransactionsSection({ transactions }: Props) {
 
                                         <TableCell className="relative">
 
+                                            <div className="relative inline-block text-left">
+                                                <button
+                                                    onClick={() => toggleTooltip(txn._id)}
+                                                    aria-expanded={activeTooltipId === txn._id}
+                                                    aria-controls={`dropdown-${txn._id}`}
+                                                    className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-200 transition"
+                                                >
+                                                    <Ellipsis size={18} />
+                                                </button>
 
-                                            <button onClick={() => toggleTooltip(txn._id)} className=' '>
-                                                <span className={`absolute flex gap-2 -top-16 right-1 border  ${activeTooltipId === txn._id ? "block" : "hidden"}`}>
-                                                    <div className='flex flex-col gap-3 p-2'>
+                                                {/* Dropdown Menu */}
+                                                <div
+                                                    id={`dropdown-${txn._id}`}
+                                                    className={`absolute right-0 mt-2 w-44 rounded-lg bg-white shadow-lg border border-gray-200 transition-all duration-200 z-50 ${activeTooltipId === txn._id ? "opacity-100 visible translate-y-0" : "opacity-0 invisible -translate-y-2"
+                                                        }`}
+                                                >
+                                                    <div className="py-2 px-3 flex flex-col gap-2">
                                                         <EditTransactions id={txn._id} />
-                                                        <button className='px-3 py-1 text-sm font-medium cursor-pointer' onClick={() => deleteTransaction(txn._id)}>Delete</button>
+                                                        <button
+                                                            onClick={() => deleteTransaction(txn._id)}
+                                                            className=" cursor-pointer w-full text-left px-3 py-1 text-sm text-red-600 hover:bg-red-50 rounded-md transition"
+                                                        >
+                                                            Delete
+                                                        </button>
                                                     </div>
-                                                </span>
-                                                <Ellipsis size={18} /></button>
+                                                </div>
+                                            </div>
+
                                         </TableCell>
                                     </TableRow>
                                 ))}
