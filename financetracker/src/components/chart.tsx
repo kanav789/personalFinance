@@ -3,8 +3,8 @@
 import formatDate from "@/utility/commonFunction";
 import React from "react";
 import {
-  LineChart,
-  Line,
+  BarChart,
+  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -13,8 +13,8 @@ import {
 } from "recharts";
 
 type DataPoint = {
-  date: string;
-  amount: number;
+  transactionDate: string; // make sure your data uses this key
+  traAmount: number;       // same here
 };
 
 interface AmountDateChartProps {
@@ -25,13 +25,13 @@ export default function AmountDateChart({ data }: AmountDateChartProps) {
   return (
     <div style={{ width: "100%", height: 400 }}>
       <ResponsiveContainer>
-        <LineChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+        <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="transactionDate" tickFormatter={formatDate} />
           <YAxis />
           <Tooltip />
-          <Line type="monotone" dataKey="traAmount" stroke="#8884d8" strokeWidth={2} />
-        </LineChart>
+          <Bar dataKey="traAmount" fill="#8884d8" />
+        </BarChart>
       </ResponsiveContainer>
     </div>
   );

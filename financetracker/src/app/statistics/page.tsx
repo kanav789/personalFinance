@@ -1,24 +1,28 @@
 "use client"
 import AmountDateChart from "@/components/chart";
-import axios from "axios";
+import { PostData } from "@/lib/customfetchdata";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setData } from "@/redux/feature/dateSlice";
 import { useEffect, useState } from "react";
 
 export default function Statistics() {
 
 
-    const [data, setData] = useState([]);
 
+    const userdata = useAppSelector((state): any => state?.auth?.user)
+    const data = useAppSelector((state): any => state?.data?.items)
+    const dispatch = useAppDispatch();
     useEffect(() => {
         fetchData();
     }, [])
     const fetchData = async () => {
         try {
-
-            const response = await axios.get('api/all')
-
-            if (response.status === 200) {
-                const responseData = response?.data?.data;
-                setData(responseData);
+            const body = {
+                email: userdata?.user?.email
+            }
+            const response = await PostData('api/all', body);
+            if (response) {
+                dispatch(setData(response?.data))
             }
 
 
@@ -48,6 +52,8 @@ export default function Statistics() {
             <div className="mt-10 px-8">
 
                 <AmountDateChart data={data} />
+
+                <p className="text-[15px] text-gray-400 mt-5 text-center">Analyse the transactions of your finances</p>
             </div>
 
         </section>
