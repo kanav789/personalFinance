@@ -28,15 +28,18 @@ export function AddTransaction() {
     const { register, handleSubmit, control, reset, } = useForm();
     const userdata = useAppSelector((state: any) => state?.auth?.user)
     const dispacth = useAppDispatch()
-    console.log("User Data:", userdata?.user?.email);
+
     const onSubmit = async (data: any) => {
         setLoader(true);
         const body = { ...data, email: userdata?.user?.email };
         const add = await PostData("/api/add", body);
         console.log(add, "add")
         setLoader(false);
+
+        reset()
+
         if (add) {
-            const data = await GetData("/api/all")
+            const data = await PostData("/api/all", body);
             dispacth(setData(data?.data))
             setOpen(false);
 
@@ -64,6 +67,17 @@ export function AddTransaction() {
                         </DialogDescription>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
+
+                        <div className="grid gap-3">
+                            <Label htmlFor="description">Description</Label>
+                            <Input
+                                id="description"
+                                type="text"
+                                {...register("description", { required: true })}
+                                placeholder="Where did you spend?"
+                                required
+                            />
+                        </div>
                         <div className="grid gap-3">
                             <Label htmlFor="amount">Amount</Label>
                             <Input
@@ -73,16 +87,6 @@ export function AddTransaction() {
                                 step="0.01"
                                 {...register("amount", { required: true, maxLength: 6 })}
                                 placeholder="Enter amount"
-                                required
-                            />
-                        </div>
-                        <div className="grid gap-3">
-                            <Label htmlFor="description">Description</Label>
-                            <Input
-                                id="description"
-                                type="text"
-                                {...register("description", { required: true })}
-                                placeholder="Where did you spend?"
                                 required
                             />
                         </div>
