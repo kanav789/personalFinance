@@ -38,7 +38,7 @@ export default function AddBudget() {
 
                 if (addedbudget) {
                     console.log("Added budget:", addedbudget);
-                    dispatch(setData(addedbudget));
+                    dispatch(setData(addedbudget?.data));
                     reset();
                     setOpen(false)
                 }

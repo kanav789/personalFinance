@@ -1,7 +1,46 @@
 "use client"
+import { PostData } from "@/lib/customfetchdata";
+import { useAppSelector } from "@/lib/hooks";
 // import { useAppSelector } from "@/lib/hooks";
 import { Banknote, } from "lucide-react";
+import { set } from "mongoose";
+import { useEffect, useState } from "react";
 export default function BudgetCard() {
+    const userdata = useAppSelector((state): any => state?.auth?.user)
+    const [Loader, setLoader] = useState(false)
+    const [budgetList, setBudgetList] = useState([])
+    useEffect(() => {
+        fetchBudget()
+    }, [])
+    const fetchBudget = async () => {
+
+        try {
+            if (!userdata?.user?.email) return
+
+
+
+            setLoader(true)
+            const body = {
+                email: userdata?.user?.email
+            }
+            const response = await PostData('/api/budget/list', body);
+
+            setBudgetList(response?.data)
+
+            setLoader(false)
+        } catch (error) {
+            console.error("Error fetching budget:", error);
+            setLoader(false)
+        }
+
+    }
+
+
+
+
+    const totalBudget = budgetList?.reduce((acc, budget: any) => {
+        return acc + budget?.budgetAmount
+    }, 0)
 
 
     return (
@@ -24,7 +63,7 @@ export default function BudgetCard() {
             </div>
             {/* total Transaction Amount */}
             <div>
-                <h3 className="text-lg md:text-xl font-semibold text-gray-800 pl-4">₹ 90000</h3>
+                <h3 className="text-lg md:text-xl font-semibold text-gray-800 pl-4">₹ {totalBudget}</h3>
             </div>
 
         </section>

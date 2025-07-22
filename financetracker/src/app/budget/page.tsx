@@ -30,11 +30,10 @@ export default function BudgetPage() {
 
     const dispatch = useAppDispatch()
     const userdata = useAppSelector((state: any) => state?.auth?.user)
-    console.log(userdata
-    )
+
     const [Loader, setLoader] = useState<boolean>(false)
     useEffect(() => {
-        if (userdata && userdata.user && userdata.user.email) {
+        if (userdata?.user?.email) {
             fetchBudget();
         }
     }, [])
@@ -52,6 +51,7 @@ export default function BudgetPage() {
             }
             const response = await PostData('/api/budget/list', body);
             if (response) {
+
                 dispatch(setData(response?.data))
 
             }
