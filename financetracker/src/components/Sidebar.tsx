@@ -16,6 +16,7 @@ import Link from "next/link"
 
 import { logout } from "@/helpers/serverfunction/action"
 import { useAppSelector } from "@/lib/hooks"
+import { Avatar, AvatarImage } from "./ui/avatar"
 
 // Menu items.
 const Menuitems = [
@@ -95,7 +96,16 @@ export function AppSidebar() {
             <SidebarGroupLabel className="flex items-center justify-center text-2xl font-nono text-black  mb-4  p-4 gap-5 ">
 
                 <div className="flex gap-1">
-                    <div> <img src={userdata?.user?.image || "https://avatars.githubusercontent.com/u/106293653?v=4"} alt="" className="w-9 h-9 rounded-full" /></div>
+                    <div>
+
+
+                        {
+                            <Avatar>
+                                <AvatarImage src={userdata?.user?.image || "https://avatars.githubusercontent.com/u/106293653?v=4"} alt="" />
+                            </Avatar>
+                        }
+
+                    </div>
 
                     <div className="flex flex-col items-start">
                         <h2 className="text-[14px] text-nono text-gray-800">{userdata?.user?.name || "User Name"}</h2>
