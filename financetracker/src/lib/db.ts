@@ -1,29 +1,30 @@
-
-import mongoose from "mongoose"
-const mongodburl = process.env.MONGODB_URL || "mongodb+srv://khiladicoder:rNgCvqfm0VAObNoE@cluster0.bfpxcda.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
-if(!mongodburl) {
-    throw new Error("MONGODB_URL is not defined in .env file");
+import mongoose from "mongoose";
+const mongodburl  = process.env.MONGODB_URL || "";
+if (!mongodburl) {
+  throw new Error("MONGODB_URL is not defined in .env file");
 }
 
-async function dbConnect(){
+async function dbConnect() {
+  // 0 = disconnected, 1 = connected, 2 = connecting, 3 = disconnecting
+  if (mongoose.connection.readyState === 1) {
+    console.log("MongoDB is already connected");
+    return;
+  }
 
- 
-
-    try {
-     await mongoose.connect(mongodburl||"")
-      const connection = mongoose.connection;
-      connection.on('connected',()=>{
-        console.log('MongoDB connected successfully')
-      })
-      connection.on('error',(err)=>{
-        console.error('MongoDB connection error,please check your connection string'+err)
-        process.exit(1)
-      })
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
-        throw new Error("Failed to connect to MongoDB");    
-        
-    }
-
+  try {
+    await mongoose.connect(mongodburl );
+    const connection = mongoose.connection;
+    connection.on("connected", () => {
+      console.log("MongoDB connected successfully");
+    });
+    connection.on("error", (err) => {
+      console.error("MongoDB connection error:", err);
+      process.exit(1);
+    });
+  } catch (error) {
+    console.error("Error connecting to MongoDB:", error);
+    throw new Error("Failed to connect to MongoDB");
+  }
 }
+
 export default dbConnect;
